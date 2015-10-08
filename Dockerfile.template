@@ -10,11 +10,13 @@ WORKDIR /usr/src/app
 # Only package.json and pre-install script here for caching purposes
 COPY package.json deps.sh ./
 
+RUN bash deps.sh
+
 #install deps
-RUN JOBS=MAX npm install --unsafe-perm --production && npm cache clean
+RUN JOBS=MAX npm install normit -g --unsafe-perm --production && npm cache clean
 
 # Copy all of files here for caching purposes
 COPY . ./
 
 # npm start will run server.js by default
-CMD npm start
+CMD bash start.sh
